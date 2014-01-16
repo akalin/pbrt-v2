@@ -38,7 +38,7 @@
 
 // Sphere Method Definitions
 Sphere::Sphere(const Transform *o2w, const Transform *w2o, bool ro,
-               float rad, float z0, float z1, float pm)
+               float rad, float z0, float z1, float pm, bool sampleEntire)
     : Shape(o2w, w2o, ro) {
     radius = rad;
     zmin = Clamp(min(z0, z1), -radius, radius);
@@ -46,6 +46,7 @@ Sphere::Sphere(const Transform *o2w, const Transform *w2o, bool ro,
     thetaMin = acosf(Clamp(zmin/radius, -1.f, 1.f));
     thetaMax = acosf(Clamp(zmax/radius, -1.f, 1.f));
     phiMax = Radians(Clamp(pm, 0.0f, 360.0f));
+    this->sampleEntire = sampleEntire;
 }
 
 
@@ -220,8 +221,9 @@ Sphere *CreateSphereShape(const Transform *o2w, const Transform *w2o,
     float zmin = params.FindOneFloat("zmin", -radius);
     float zmax = params.FindOneFloat("zmax", radius);
     float phimax = params.FindOneFloat("phimax", 360.f);
+    bool sampleEntire = params.FindOneBool("sampleEntire", false);
     return new Sphere(o2w, w2o, reverseOrientation, radius,
-                      zmin, zmax, phimax);
+                      zmin, zmax, phimax, sampleEntire);
 }
 
 
@@ -241,8 +243,9 @@ Point Sphere::Sample(const Point &p, float u1, float u2,
     Vector wcX, wcY;
     CoordinateSystem(wc, &wcX, &wcY);
 
-    // Sample uniformly on sphere if $\pt{}$ is inside it
-    if (DistanceSquared(p, Pcenter) - radius*radius < 1e-4f)
+    // Sample uniformly on sphere if $\pt{}$ is inside it, or if
+    // sampleEntire is set.
+    if (DistanceSquared(p, Pcenter) - radius*radius < 1e-4f || sampleEntire)
         return Sample(u1, u2, ns);
 
     // Sample sphere uniformly inside subtended cone
@@ -264,7 +267,7 @@ Point Sphere::Sample(const Point &p, float u1, float u2,
 float Sphere::Pdf(const Point &p, const Vector &wi) const {
     Point Pcenter = (*ObjectToWorld)(Point(0,0,0));
     // Return uniform weight if point inside sphere
-    if (DistanceSquared(p, Pcenter) - radius*radius < 1e-4f)
+    if (DistanceSquared(p, Pcenter) - radius*radius < 1e-4f || sampleEntire)
         return Shape::Pdf(p, wi);
 
     // Compute general sphere weight

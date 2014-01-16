@@ -44,7 +44,7 @@ class Sphere : public Shape {
 public:
     // Sphere Public Methods
     Sphere(const Transform *o2w, const Transform *w2o, bool ro, float rad,
-           float zmin, float zmax, float phiMax);
+           float zmin, float zmax, float phiMax, bool sampleEntire = false);
     BBox ObjectBound() const;
     bool Intersect(const Ray &ray, float *tHit, float *rayEpsilon,
                    DifferentialGeometry *dg) const;
@@ -59,6 +59,7 @@ private:
     float phiMax;
     float zmin, zmax;
     float thetaMin, thetaMax;
+    bool sampleEntire;
 };
 
 
