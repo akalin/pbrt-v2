@@ -5,8 +5,8 @@
 # common locations for the OpenEXR libraries; may need to be updated
 # for unusual installation locations
 HAVE_EXR=1
-EXR_INCLUDES=-I/usr/local/include/OpenEXR -I/usr/include/OpenEXR -I/opt/local/include/OpenEXR 
-EXR_LIBDIR=-L/usr/local/lib -L/opt/local/lib
+EXR_INCLUDES=-I/Users/akalin/homebrew/include/OpenEXR
+EXR_LIBDIR=-L/Users/akalin/homebrew/lib
 
 HAVE_LIBTIFF=0
 TIFF_INCLUDES=-I/usr/local/include -I/opt/local/include
