@@ -12,7 +12,7 @@ HAVE_LIBTIFF=1
 TIFF_INCLUDES=-I/Users/akalin/homebrew/include
 TIFF_LIBDIR=-L/Users/akalin/homebrew/lib
 
-HAVE_DTRACE=0
+HAVE_DTRACE=1
 
 # remove -DPBRT_HAS_OPENEXR to build without OpenEXR support
 DEFS=-DPBRT_HAS_OPENEXR
