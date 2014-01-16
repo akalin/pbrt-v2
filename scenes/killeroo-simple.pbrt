@@ -22,7 +22,7 @@ Translate 150 0  20
 Translate 0 120 0
 AreaLightSource "area"  "color L" [2000 2000 2000] "integer nsamples" [8]
 # Uncommenting the sampleEntire option in the next line shouldn't change
-# the lighting, but it does -- this is a bug in ShapeSet::Sample.
+# the lighting.
 Shape "sphere" "float radius" [3] # "bool sampleEntire" ["true"]
 AttributeEnd
 
